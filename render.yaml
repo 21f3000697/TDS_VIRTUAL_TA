@@ -21,9 +21,11 @@ services:
         value: production
       - key: LOG_LEVEL
         value: INFO
+      # OpenAI API Key should be set in Render dashboard
       - key: OPENAI_API_KEY
-        sync: false # This will prompt for the value during deployment
+        sync: false # This will be set in the Render dashboard
     autoDeploy: false
+    healthCheckPath: /health
     disk:
       name: data
       mountPath: /opt/render/project/src/data
