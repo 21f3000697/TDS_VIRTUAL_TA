@@ -1,0 +1,30 @@
+services:
+  - type: web
+    name: tds-virtual-ta
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.10.0
+      - key: MODEL_NAME
+        value: paraphrase-MiniLM-L3-v2
+      - key: PYTORCH_CUDA_ALLOC_CONF
+        value: max_split_size_mb:64
+      - key: TOKENIZERS_PARALLELISM
+        value: "false"
+      - key: MALLOC_TRIM_THRESHOLD_
+        value: "65536"
+      - key: OPENAI_MODEL
+        value: gpt-3.5-turbo-0125
+      - key: ENVIRONMENT
+        value: production
+      - key: LOG_LEVEL
+        value: INFO
+      - key: OPENAI_API_KEY
+        sync: false # This will prompt for the value during deployment
+    autoDeploy: false
+    disk:
+      name: data
+      mountPath: /opt/render/project/src/data
+      sizeGB: 1 

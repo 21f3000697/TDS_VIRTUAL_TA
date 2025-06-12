@@ -1,0 +1,44 @@
+providers:
+  - id: tds-virtual-ta
+    config:
+      url: http://127.0.0.1:8000/api/
+      headers:
+        Content-Type: application/json
+      method: POST
+      bodyKey: question
+
+prompts:
+  - Should I use gpt-4o-mini which AI proxy supports, or gpt3.5 turbo?
+  - If I passed 'gpt-3.5-turbo-0125' to the model, how many cents would the input cost if the cost per million tokens is 50 cents?
+  - How do I calculate the number of tokens and cost?
+  - What model should I use for the assignment?
+  - How do I use the tokenizer like Prof. Anand showed?
+
+tests:
+  - description: Model selection question
+    prompt: Should I use gpt-4o-mini which AI proxy supports, or gpt3.5 turbo?
+    assert:
+      - type: contains-any
+        value:
+          - gpt-3.5-turbo-0125
+          - OpenAI API directly
+  
+  - description: Token cost calculation
+    prompt: If I passed 'gpt-3.5-turbo-0125' to the model, how many cents would the input cost if the cost per million tokens is 50 cents?
+    assert:
+      - type: contains-any
+        value:
+          - tokenizer
+          - multiply
+          - 50 cents per million
+  
+  - description: Token calculation method
+    prompt: How do I calculate the number of tokens and cost?
+    assert:
+      - type: contains-any
+        value:
+          - tokenizer
+          - multiply
+          - count tokens
+
+outputPath: evaluation-results.json 
