@@ -118,5 +118,6 @@ app.include_router(api_router, prefix="/api")
 logger.info("Application setup completed successfully")
 
 if __name__ == "__main__":
-    logger.info("Starting server...")
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    import uvicorn
+    port = int(os.environ.get("PORT", 8000))  # Use Render's PORT env var
+    uvicorn.run("main:app", host="0.0.0.0", port=port)
